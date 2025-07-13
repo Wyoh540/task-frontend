@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "command": "yarn",
+      "problemMatcher": [],
+      "label": "yarn: install",
+      "detail": "yarn install"
+    },
+    {
+      "type": "shell",
+      "command": "yarn build",
+      "problemMatcher": [],
+      "label": "yarn: build",
+      "detail": "yarn build"
+    },
+    {
+      "type": "shell",
+      "command": "yarn start",
+      "problemMatcher": [],
+      "label": "yarn: start",
+      "detail": "vite --port 3000"
+    },
+    {
+      "type": "shell",
+      "command": "yarn generate-client",
+      "problemMatcher": [],
+      "label": "yarn: generate-client",
+      "detail": "npx @hey-api/openapi-ts"
+    },
+    {
+      "type": "shell",
+      "command": "yarn serve",
+      "problemMatcher": [],
+      "label": "yarn: serve",
+      "detail": "vite preview"
+    }
+  ]
+}
