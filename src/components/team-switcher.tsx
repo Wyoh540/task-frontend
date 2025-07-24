@@ -12,14 +12,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import type { Team } from "@/client"
+import type { TeamPubilc } from "@/client"
 import { useNavigate } from "@tanstack/react-router"
 
 export function TeamSwitcher({
   teams,
   defaultTeamId,
 }: {
-  teams: Team[]
+  teams: TeamPubilc[]
   defaultTeamId: string
 }) {
   const [selectedTeamId, setSelectedTeamId] = React.useState(defaultTeamId)

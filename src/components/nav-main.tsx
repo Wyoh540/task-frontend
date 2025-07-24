@@ -58,6 +58,7 @@ export function NavMain({ items }: { items: itemsType[] | itemsType }) {
             <SidebarMenuItem key={item.title}>
               <Link to={item.url}>
                 {({ isActive }) => {
+                  console.log(item.url)
                   return (
                     <SidebarMenuButton isActive={isActive}>
                       {item.icon && <item.icon />}

@@ -14,7 +14,7 @@ import useAuth from "@/hooks/use-auth"
 import { NavMain, type itemsType } from "@/components/nav-main"
 import { BadgeAlert, UsersRound, Gauge, House, Rocket } from "lucide-react"
 import { TeamSwitcher } from "./team-switcher"
-import type { Team } from "@/client"
+import type { TeamPubilc } from "@/client"
 
 interface sidebarDataType {
   versions: string[]
@@ -33,12 +33,12 @@ export const data: sidebarDataType = {
     {
       title: "首页",
       icon: House,
-      url: "",
+      url: "home",
     },
     {
-      title: "仪表盘",
+      title: "任务列表",
       icon: Gauge,
-      url: "dashboard",
+      url: "jobs",
     },
     {
       title: "Getting Started",
@@ -66,7 +66,7 @@ export function AppSidebar({
   defaultTeamId,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
-  teams: Team[]
+  teams: TeamPubilc[]
   defaultTeamId: string
 }) {
   const { user: currentUser } = useAuth()

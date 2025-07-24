@@ -153,7 +153,7 @@ function RouteComponent() {
             {data?.items.map((team) => (
               <Card
                 key={team.id}
-                onClick={() => navigate({ to: `/teams/${team.id}` })}
+                onClick={() => navigate({ to: `/teams/${team.id}/home` })}
               >
                 <CardHeader>
                   <CardTitle>{team.name}</CardTitle>

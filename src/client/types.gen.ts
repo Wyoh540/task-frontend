@@ -28,7 +28,7 @@ export type JobOut = {
     script_path?: string | null;
     id: number;
     language: Language;
-    team: Team;
+    team_id: number;
     owner: UserPubic;
 };
 
@@ -72,8 +72,8 @@ export type PageTeamMemberList = {
     pages?: number | null;
 };
 
-export type PageTeam = {
-    items: Array<Team>;
+export type PageTeamPubilc = {
+    items: Array<TeamPubilc>;
     total: number | null;
     page: number | null;
     size: number | null;
@@ -123,18 +123,6 @@ export type TaskResultList = {
 };
 
 /**
- * 任务空间表
- */
-export type Team = {
-    id?: number | null;
-    name: string;
-    description: string;
-    create_by: number;
-    create_at?: string;
-    update_at?: string;
-};
-
-/**
  * 任务空间创建
  */
 export type TeamCreate = {
@@ -168,12 +156,13 @@ export type TeamMemberUpdate = {
  * 任务组公共信息
  */
 export type TeamPubilc = {
+    id: number;
     name: string;
     description: string;
-    id?: number | null;
     create_by: number;
-    create_at?: string;
-    update_at?: string;
+    create_at: string;
+    update_at: string;
+    job_count: number;
 };
 
 export type Token = {
@@ -348,7 +337,7 @@ export type GetTeamsResponses = {
     /**
      * Successful Response
      */
-    200: PageTeam;
+    200: PageTeamPubilc;
 };
 
 export type GetTeamsResponse = GetTeamsResponses[keyof GetTeamsResponses];
@@ -377,6 +366,33 @@ export type CreateTeamResponses = {
 };
 
 export type CreateTeamResponse = CreateTeamResponses[keyof CreateTeamResponses];
+
+export type DeleteTeamData = {
+    body?: never;
+    path: {
+        team_id: number;
+    };
+    query?: never;
+    url: '/api/v1/team/{team_id}';
+};
+
+export type DeleteTeamErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteTeamError = DeleteTeamErrors[keyof DeleteTeamErrors];
+
+export type DeleteTeamResponses = {
+    /**
+     * Successful Response
+     */
+    204: void;
+};
+
+export type DeleteTeamResponse = DeleteTeamResponses[keyof DeleteTeamResponses];
 
 export type GetTeamData = {
     body?: never;

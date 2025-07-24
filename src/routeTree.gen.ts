@@ -17,9 +17,10 @@ import { Route as TeamsImport } from './routes/teams'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutTeamImport } from './routes/_layout/team'
 import { Route as TeamsTeamIdLayoutImport } from './routes/teams_/$teamId/_layout'
-import { Route as TeamsTeamIdLayoutIndexImport } from './routes/teams_/$teamId/_layout/index'
+import { Route as TeamsTeamIdLayoutHomeImport } from './routes/teams_/$teamId/_layout/home'
 import { Route as TeamsTeamIdLayoutDashboardImport } from './routes/teams_/$teamId/_layout/dashboard'
 import { Route as TeamsTeamIdLayoutAboutImport } from './routes/teams_/$teamId/_layout/about'
+import { Route as TeamsTeamIdLayoutJobsIndexImport } from './routes/teams_/$teamId/_layout/jobs/index'
 
 // Create Virtual Routes
 
@@ -56,9 +57,9 @@ const TeamsTeamIdLayoutRoute = TeamsTeamIdLayoutImport.update({
   getParentRoute: () => TeamsTeamIdRoute,
 } as any)
 
-const TeamsTeamIdLayoutIndexRoute = TeamsTeamIdLayoutIndexImport.update({
-  id: '/',
-  path: '/',
+const TeamsTeamIdLayoutHomeRoute = TeamsTeamIdLayoutHomeImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => TeamsTeamIdLayoutRoute,
 } as any)
 
@@ -75,6 +76,14 @@ const TeamsTeamIdLayoutAboutRoute = TeamsTeamIdLayoutAboutImport.update({
   path: '/about',
   getParentRoute: () => TeamsTeamIdLayoutRoute,
 } as any)
+
+const TeamsTeamIdLayoutJobsIndexRoute = TeamsTeamIdLayoutJobsIndexImport.update(
+  {
+    id: '/jobs/',
+    path: '/jobs/',
+    getParentRoute: () => TeamsTeamIdLayoutRoute,
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -129,11 +138,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamsTeamIdLayoutDashboardImport
       parentRoute: typeof TeamsTeamIdLayoutImport
     }
-    '/teams_/$teamId/_layout/': {
-      id: '/teams_/$teamId/_layout/'
-      path: '/'
-      fullPath: '/teams/$teamId/'
-      preLoaderRoute: typeof TeamsTeamIdLayoutIndexImport
+    '/teams_/$teamId/_layout/home': {
+      id: '/teams_/$teamId/_layout/home'
+      path: '/home'
+      fullPath: '/teams/$teamId/home'
+      preLoaderRoute: typeof TeamsTeamIdLayoutHomeImport
+      parentRoute: typeof TeamsTeamIdLayoutImport
+    }
+    '/teams_/$teamId/_layout/jobs/': {
+      id: '/teams_/$teamId/_layout/jobs/'
+      path: '/jobs'
+      fullPath: '/teams/$teamId/jobs'
+      preLoaderRoute: typeof TeamsTeamIdLayoutJobsIndexImport
       parentRoute: typeof TeamsTeamIdLayoutImport
     }
   }
@@ -144,13 +160,15 @@ declare module '@tanstack/react-router' {
 interface TeamsTeamIdLayoutRouteChildren {
   TeamsTeamIdLayoutAboutRoute: typeof TeamsTeamIdLayoutAboutRoute
   TeamsTeamIdLayoutDashboardRoute: typeof TeamsTeamIdLayoutDashboardRoute
-  TeamsTeamIdLayoutIndexRoute: typeof TeamsTeamIdLayoutIndexRoute
+  TeamsTeamIdLayoutHomeRoute: typeof TeamsTeamIdLayoutHomeRoute
+  TeamsTeamIdLayoutJobsIndexRoute: typeof TeamsTeamIdLayoutJobsIndexRoute
 }
 
 const TeamsTeamIdLayoutRouteChildren: TeamsTeamIdLayoutRouteChildren = {
   TeamsTeamIdLayoutAboutRoute: TeamsTeamIdLayoutAboutRoute,
   TeamsTeamIdLayoutDashboardRoute: TeamsTeamIdLayoutDashboardRoute,
-  TeamsTeamIdLayoutIndexRoute: TeamsTeamIdLayoutIndexRoute,
+  TeamsTeamIdLayoutHomeRoute: TeamsTeamIdLayoutHomeRoute,
+  TeamsTeamIdLayoutJobsIndexRoute: TeamsTeamIdLayoutJobsIndexRoute,
 }
 
 const TeamsTeamIdLayoutRouteWithChildren =
@@ -175,16 +193,19 @@ export interface FileRoutesByFullPath {
   '/teams/$teamId': typeof TeamsTeamIdLayoutRouteWithChildren
   '/teams/$teamId/about': typeof TeamsTeamIdLayoutAboutRoute
   '/teams/$teamId/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
-  '/teams/$teamId/': typeof TeamsTeamIdLayoutIndexRoute
+  '/teams/$teamId/home': typeof TeamsTeamIdLayoutHomeRoute
+  '/teams/$teamId/jobs': typeof TeamsTeamIdLayoutJobsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/teams': typeof TeamsRoute
   '/team': typeof LayoutTeamRoute
-  '/teams/$teamId': typeof TeamsTeamIdLayoutIndexRoute
+  '/teams/$teamId': typeof TeamsTeamIdLayoutRouteWithChildren
   '/teams/$teamId/about': typeof TeamsTeamIdLayoutAboutRoute
   '/teams/$teamId/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
+  '/teams/$teamId/home': typeof TeamsTeamIdLayoutHomeRoute
+  '/teams/$teamId/jobs': typeof TeamsTeamIdLayoutJobsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -196,7 +217,8 @@ export interface FileRoutesById {
   '/teams_/$teamId/_layout': typeof TeamsTeamIdLayoutRouteWithChildren
   '/teams_/$teamId/_layout/about': typeof TeamsTeamIdLayoutAboutRoute
   '/teams_/$teamId/_layout/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
-  '/teams_/$teamId/_layout/': typeof TeamsTeamIdLayoutIndexRoute
+  '/teams_/$teamId/_layout/home': typeof TeamsTeamIdLayoutHomeRoute
+  '/teams_/$teamId/_layout/jobs/': typeof TeamsTeamIdLayoutJobsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -208,7 +230,8 @@ export interface FileRouteTypes {
     | '/teams/$teamId'
     | '/teams/$teamId/about'
     | '/teams/$teamId/dashboard'
-    | '/teams/$teamId/'
+    | '/teams/$teamId/home'
+    | '/teams/$teamId/jobs'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -217,6 +240,8 @@ export interface FileRouteTypes {
     | '/teams/$teamId'
     | '/teams/$teamId/about'
     | '/teams/$teamId/dashboard'
+    | '/teams/$teamId/home'
+    | '/teams/$teamId/jobs'
   id:
     | '__root__'
     | '/login'
@@ -226,7 +251,8 @@ export interface FileRouteTypes {
     | '/teams_/$teamId/_layout'
     | '/teams_/$teamId/_layout/about'
     | '/teams_/$teamId/_layout/dashboard'
-    | '/teams_/$teamId/_layout/'
+    | '/teams_/$teamId/_layout/home'
+    | '/teams_/$teamId/_layout/jobs/'
   fileRoutesById: FileRoutesById
 }
 
@@ -281,7 +307,8 @@ export const routeTree = rootRoute
       "children": [
         "/teams_/$teamId/_layout/about",
         "/teams_/$teamId/_layout/dashboard",
-        "/teams_/$teamId/_layout/"
+        "/teams_/$teamId/_layout/home",
+        "/teams_/$teamId/_layout/jobs/"
       ]
     },
     "/teams_/$teamId/_layout/about": {
@@ -292,8 +319,12 @@ export const routeTree = rootRoute
       "filePath": "teams_/$teamId/_layout/dashboard.tsx",
       "parent": "/teams_/$teamId/_layout"
     },
-    "/teams_/$teamId/_layout/": {
-      "filePath": "teams_/$teamId/_layout/index.tsx",
+    "/teams_/$teamId/_layout/home": {
+      "filePath": "teams_/$teamId/_layout/home.tsx",
+      "parent": "/teams_/$teamId/_layout"
+    },
+    "/teams_/$teamId/_layout/jobs/": {
+      "filePath": "teams_/$teamId/_layout/jobs/index.tsx",
       "parent": "/teams_/$teamId/_layout"
     }
   }
