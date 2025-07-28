@@ -3,6 +3,8 @@ import {
   type ColumnDef,
   getCoreRowModel,
   flexRender,
+  type PaginationState,
+  type PaginationOptions,
 } from "@tanstack/react-table"
 import {
   Table,
@@ -14,20 +16,28 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import { DataTablePagination } from "./data-table-pagination"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  isPending: boolean
+  pagination: PaginationState
+  paginationOptions: Pick<PaginationOptions, "onPaginationChange" | "rowCount">
+  isPending?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  isPending = false,
+  pagination,
+  paginationOptions,
+  isPending = true,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     columns,
     data,
+    state: { pagination },
+    ...paginationOptions,
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
   })
 
@@ -95,7 +105,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* <DataTablePagination table={table} /> */}
+      <DataTablePagination table={table} />
     </div>
   )
 }

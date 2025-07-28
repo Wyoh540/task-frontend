@@ -22,7 +22,7 @@ export const columns: ColumnDef<JobOut, any>[] = [
     cell: (info) => info.getValue(),
   },
   {
-    accessorKey: "owner.username",
+    accessorKey: "owner.full_name",
     header: "所有者",
     cell: (info) => info.getValue(),
   },

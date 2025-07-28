@@ -8,13 +8,18 @@ import { useState } from "react"
 
 export default function Jobs() {
   const { teamId } = useParams({ strict: false })
-  const [page, setPage] = useState(1)
-  const [size, setSize] = useState(10)
+  const [paginationState, setPaginationState] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  })
 
   const { data, isPending } = useQuery({
     ...getTasksOptions({
       path: { team_id: Number(teamId) },
-      query: { page: page, size: size },
+      query: {
+        page: paginationState.pageIndex + 1,
+        size: paginationState.pageSize,
+      },
     }),
     placeholderData: keepPreviousData,
   })
@@ -24,6 +29,13 @@ export default function Jobs() {
       <DataTable
         columns={columns}
         data={data?.items || []}
+        pagination={paginationState}
+        paginationOptions={{
+          onPaginationChange: (pagination) => {
+            setPaginationState(pagination)
+          },
+          rowCount: data?.total || 0,
+        }}
         isPending={isPending}
       />
     </div>

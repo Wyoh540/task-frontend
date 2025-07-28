@@ -9,6 +9,10 @@ export type BodyLoginAccessToken = {
     client_secret?: string | null;
 };
 
+export type CreateLanguage = {
+    language_name: string;
+};
+
 export type HttpValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -726,21 +730,46 @@ export type UpdateTeamMemberResponses = {
 
 export type UpdateTeamMemberResponse = UpdateTeamMemberResponses[keyof UpdateTeamMemberResponses];
 
-export type GetLanguagesData = {
+export type ListLanguagesData = {
     body?: never;
     path?: never;
     query?: never;
     url: '/api/v1/language/';
 };
 
-export type GetLanguagesResponses = {
+export type ListLanguagesResponses = {
     /**
      * Successful Response
      */
     200: Array<Language>;
 };
 
-export type GetLanguagesResponse = GetLanguagesResponses[keyof GetLanguagesResponses];
+export type ListLanguagesResponse = ListLanguagesResponses[keyof ListLanguagesResponses];
+
+export type CreateLanguageData = {
+    body: CreateLanguage;
+    path?: never;
+    query?: never;
+    url: '/api/v1/language/';
+};
+
+export type CreateLanguageErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type CreateLanguageError = CreateLanguageErrors[keyof CreateLanguageErrors];
+
+export type CreateLanguageResponses = {
+    /**
+     * Successful Response
+     */
+    200: Language;
+};
+
+export type CreateLanguageResponse = CreateLanguageResponses[keyof CreateLanguageResponses];
 
 export type ListWorkerData = {
     body?: never;
