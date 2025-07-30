@@ -37,7 +37,7 @@ function Layout() {
       path: match.pathname,
     }))
 
-  const { data, isPending } = useQuery({
+  const { data } = useQuery({
     ...getTeamsOptions(),
     placeholderData: keepPreviousData,
   })
