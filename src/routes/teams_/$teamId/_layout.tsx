@@ -60,7 +60,7 @@ function Layout() {
             </BreadcrumbItem>
           ))}
         </header>
-        <div className="flex flex-col gap-2 p-2">
+        <div>
           <Outlet />
         </div>
       </SidebarInset>
