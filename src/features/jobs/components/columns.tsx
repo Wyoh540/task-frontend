@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import type { JobOut } from "@/client/types.gen"
+import { DataTableRowActions } from "./data-table-row-actions"
 
 // JobOut 类型的 ColumnDef 示例
 export const columns: ColumnDef<JobOut, any>[] = [
@@ -25,5 +26,9 @@ export const columns: ColumnDef<JobOut, any>[] = [
     accessorKey: "owner.full_name",
     header: "所有者",
     cell: (info) => info.getValue(),
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

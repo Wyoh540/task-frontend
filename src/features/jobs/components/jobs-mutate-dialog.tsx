@@ -201,14 +201,14 @@ export function JobsMutateDialog({ open, onOpenChange, currentRow }: Props) {
               )}
             />
             <DialogFooter>
-              <Button type="submit" disabled={createJobMutation.isPending}>
-                {isUpdate ? "保存修改" : "新建"}
-              </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">
                   取消
                 </Button>
               </DialogClose>
+              <Button type="submit" disabled={createJobMutation.isPending}>
+                {isUpdate ? "保存修改" : "新建"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>

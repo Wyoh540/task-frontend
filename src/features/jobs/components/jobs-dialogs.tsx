@@ -11,6 +11,22 @@ export function JobsDialogs() {
         open={open === "create"}
         onOpenChange={() => setOpen("create")}
       />
+
+      {currentRow && (
+        <>
+          <JobsMutateDialog
+            key="task-update"
+            open={open === "update"}
+            onOpenChange={() => {
+              setOpen("update")
+              setTimeout(() => {
+                setCurrentRow(null)
+              }, 500)
+            }}
+            currentRow={currentRow}
+          />
+        </>
+      )}
     </>
   )
 }
