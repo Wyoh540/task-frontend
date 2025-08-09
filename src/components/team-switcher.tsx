@@ -59,7 +59,7 @@ export function TeamSwitcher({
                 onSelect={() => {
                   typeof team.id === "number" &&
                     setSelectedTeamId(team.id.toString())
-                  navigate({ to: `/teams/${team.id}` })
+                  navigate({ to: `/teams/${team.id}/home` })
                 }}
               >
                 {/* v{version}{" "} */}

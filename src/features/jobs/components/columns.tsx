@@ -4,6 +4,8 @@ import { DataTableRowActions } from "./data-table-row-actions"
 import { Button } from "@/components/ui/button"
 import { Play } from "lucide-react"
 
+import { useNavigate } from "@tanstack/react-router"
+
 // JobOut 类型的 ColumnDef 示例
 export const columns: ColumnDef<JobOut, any>[] = [
   // 示例列，可根据实际字段调整
@@ -14,6 +16,19 @@ export const columns: ColumnDef<JobOut, any>[] = [
   {
     accessorKey: "name",
     header: "名称",
+    cell: ({ row }) => {
+      const navigate = useNavigate()
+      const jobId = row.original.id
+      const name = row.original.name
+      return (
+        <Button
+          variant="link"
+          onClick={() => navigate({ to: `${jobId}/record` })}
+        >
+          {name}
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "description",

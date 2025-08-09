@@ -17,10 +17,12 @@ import { Route as TeamsImport } from './routes/teams'
 import { Route as LoginImport } from './routes/login'
 import { Route as LayoutTeamImport } from './routes/_layout/team'
 import { Route as TeamsTeamIdLayoutImport } from './routes/teams_/$teamId/_layout'
+import { Route as TeamsTeamIdLayoutRecordImport } from './routes/teams_/$teamId/_layout/record'
 import { Route as TeamsTeamIdLayoutHomeImport } from './routes/teams_/$teamId/_layout/home'
 import { Route as TeamsTeamIdLayoutDashboardImport } from './routes/teams_/$teamId/_layout/dashboard'
 import { Route as TeamsTeamIdLayoutAboutImport } from './routes/teams_/$teamId/_layout/about'
 import { Route as TeamsTeamIdLayoutJobsIndexImport } from './routes/teams_/$teamId/_layout/jobs/index'
+import { Route as TeamsTeamIdLayoutJobsJobIdRecordImport } from './routes/teams_/$teamId/_layout/jobs_/$jobId/record'
 
 // Create Virtual Routes
 
@@ -57,6 +59,12 @@ const TeamsTeamIdLayoutRoute = TeamsTeamIdLayoutImport.update({
   getParentRoute: () => TeamsTeamIdRoute,
 } as any)
 
+const TeamsTeamIdLayoutRecordRoute = TeamsTeamIdLayoutRecordImport.update({
+  id: '/record',
+  path: '/record',
+  getParentRoute: () => TeamsTeamIdLayoutRoute,
+} as any)
+
 const TeamsTeamIdLayoutHomeRoute = TeamsTeamIdLayoutHomeImport.update({
   id: '/home',
   path: '/home',
@@ -84,6 +92,13 @@ const TeamsTeamIdLayoutJobsIndexRoute = TeamsTeamIdLayoutJobsIndexImport.update(
     getParentRoute: () => TeamsTeamIdLayoutRoute,
   } as any,
 )
+
+const TeamsTeamIdLayoutJobsJobIdRecordRoute =
+  TeamsTeamIdLayoutJobsJobIdRecordImport.update({
+    id: '/jobs_/$jobId/record',
+    path: '/jobs/$jobId/record',
+    getParentRoute: () => TeamsTeamIdLayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -145,11 +160,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamsTeamIdLayoutHomeImport
       parentRoute: typeof TeamsTeamIdLayoutImport
     }
+    '/teams_/$teamId/_layout/record': {
+      id: '/teams_/$teamId/_layout/record'
+      path: '/record'
+      fullPath: '/teams/$teamId/record'
+      preLoaderRoute: typeof TeamsTeamIdLayoutRecordImport
+      parentRoute: typeof TeamsTeamIdLayoutImport
+    }
     '/teams_/$teamId/_layout/jobs/': {
       id: '/teams_/$teamId/_layout/jobs/'
       path: '/jobs'
       fullPath: '/teams/$teamId/jobs'
       preLoaderRoute: typeof TeamsTeamIdLayoutJobsIndexImport
+      parentRoute: typeof TeamsTeamIdLayoutImport
+    }
+    '/teams_/$teamId/_layout/jobs_/$jobId/record': {
+      id: '/teams_/$teamId/_layout/jobs_/$jobId/record'
+      path: '/jobs/$jobId/record'
+      fullPath: '/teams/$teamId/jobs/$jobId/record'
+      preLoaderRoute: typeof TeamsTeamIdLayoutJobsJobIdRecordImport
       parentRoute: typeof TeamsTeamIdLayoutImport
     }
   }
@@ -161,14 +190,18 @@ interface TeamsTeamIdLayoutRouteChildren {
   TeamsTeamIdLayoutAboutRoute: typeof TeamsTeamIdLayoutAboutRoute
   TeamsTeamIdLayoutDashboardRoute: typeof TeamsTeamIdLayoutDashboardRoute
   TeamsTeamIdLayoutHomeRoute: typeof TeamsTeamIdLayoutHomeRoute
+  TeamsTeamIdLayoutRecordRoute: typeof TeamsTeamIdLayoutRecordRoute
   TeamsTeamIdLayoutJobsIndexRoute: typeof TeamsTeamIdLayoutJobsIndexRoute
+  TeamsTeamIdLayoutJobsJobIdRecordRoute: typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
 }
 
 const TeamsTeamIdLayoutRouteChildren: TeamsTeamIdLayoutRouteChildren = {
   TeamsTeamIdLayoutAboutRoute: TeamsTeamIdLayoutAboutRoute,
   TeamsTeamIdLayoutDashboardRoute: TeamsTeamIdLayoutDashboardRoute,
   TeamsTeamIdLayoutHomeRoute: TeamsTeamIdLayoutHomeRoute,
+  TeamsTeamIdLayoutRecordRoute: TeamsTeamIdLayoutRecordRoute,
   TeamsTeamIdLayoutJobsIndexRoute: TeamsTeamIdLayoutJobsIndexRoute,
+  TeamsTeamIdLayoutJobsJobIdRecordRoute: TeamsTeamIdLayoutJobsJobIdRecordRoute,
 }
 
 const TeamsTeamIdLayoutRouteWithChildren =
@@ -194,7 +227,9 @@ export interface FileRoutesByFullPath {
   '/teams/$teamId/about': typeof TeamsTeamIdLayoutAboutRoute
   '/teams/$teamId/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
   '/teams/$teamId/home': typeof TeamsTeamIdLayoutHomeRoute
+  '/teams/$teamId/record': typeof TeamsTeamIdLayoutRecordRoute
   '/teams/$teamId/jobs': typeof TeamsTeamIdLayoutJobsIndexRoute
+  '/teams/$teamId/jobs/$jobId/record': typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
 }
 
 export interface FileRoutesByTo {
@@ -205,7 +240,9 @@ export interface FileRoutesByTo {
   '/teams/$teamId/about': typeof TeamsTeamIdLayoutAboutRoute
   '/teams/$teamId/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
   '/teams/$teamId/home': typeof TeamsTeamIdLayoutHomeRoute
+  '/teams/$teamId/record': typeof TeamsTeamIdLayoutRecordRoute
   '/teams/$teamId/jobs': typeof TeamsTeamIdLayoutJobsIndexRoute
+  '/teams/$teamId/jobs/$jobId/record': typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
 }
 
 export interface FileRoutesById {
@@ -218,7 +255,9 @@ export interface FileRoutesById {
   '/teams_/$teamId/_layout/about': typeof TeamsTeamIdLayoutAboutRoute
   '/teams_/$teamId/_layout/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
   '/teams_/$teamId/_layout/home': typeof TeamsTeamIdLayoutHomeRoute
+  '/teams_/$teamId/_layout/record': typeof TeamsTeamIdLayoutRecordRoute
   '/teams_/$teamId/_layout/jobs/': typeof TeamsTeamIdLayoutJobsIndexRoute
+  '/teams_/$teamId/_layout/jobs_/$jobId/record': typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
 }
 
 export interface FileRouteTypes {
@@ -231,7 +270,9 @@ export interface FileRouteTypes {
     | '/teams/$teamId/about'
     | '/teams/$teamId/dashboard'
     | '/teams/$teamId/home'
+    | '/teams/$teamId/record'
     | '/teams/$teamId/jobs'
+    | '/teams/$teamId/jobs/$jobId/record'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -241,7 +282,9 @@ export interface FileRouteTypes {
     | '/teams/$teamId/about'
     | '/teams/$teamId/dashboard'
     | '/teams/$teamId/home'
+    | '/teams/$teamId/record'
     | '/teams/$teamId/jobs'
+    | '/teams/$teamId/jobs/$jobId/record'
   id:
     | '__root__'
     | '/login'
@@ -252,7 +295,9 @@ export interface FileRouteTypes {
     | '/teams_/$teamId/_layout/about'
     | '/teams_/$teamId/_layout/dashboard'
     | '/teams_/$teamId/_layout/home'
+    | '/teams_/$teamId/_layout/record'
     | '/teams_/$teamId/_layout/jobs/'
+    | '/teams_/$teamId/_layout/jobs_/$jobId/record'
   fileRoutesById: FileRoutesById
 }
 
@@ -308,7 +353,9 @@ export const routeTree = rootRoute
         "/teams_/$teamId/_layout/about",
         "/teams_/$teamId/_layout/dashboard",
         "/teams_/$teamId/_layout/home",
-        "/teams_/$teamId/_layout/jobs/"
+        "/teams_/$teamId/_layout/record",
+        "/teams_/$teamId/_layout/jobs/",
+        "/teams_/$teamId/_layout/jobs_/$jobId/record"
       ]
     },
     "/teams_/$teamId/_layout/about": {
@@ -323,8 +370,16 @@ export const routeTree = rootRoute
       "filePath": "teams_/$teamId/_layout/home.tsx",
       "parent": "/teams_/$teamId/_layout"
     },
+    "/teams_/$teamId/_layout/record": {
+      "filePath": "teams_/$teamId/_layout/record.tsx",
+      "parent": "/teams_/$teamId/_layout"
+    },
     "/teams_/$teamId/_layout/jobs/": {
       "filePath": "teams_/$teamId/_layout/jobs/index.tsx",
+      "parent": "/teams_/$teamId/_layout"
+    },
+    "/teams_/$teamId/_layout/jobs_/$jobId/record": {
+      "filePath": "teams_/$teamId/_layout/jobs_/$jobId/record.tsx",
       "parent": "/teams_/$teamId/_layout"
     }
   }

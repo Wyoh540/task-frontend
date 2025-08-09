@@ -1,7 +1,5 @@
 import * as React from "react"
 
-import { VersionSwitcher } from "@/components/version-switcher"
-
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +10,7 @@ import {
 import { NavUser } from "@/components/nav-user"
 import useAuth from "@/hooks/use-auth"
 import { NavMain, type itemsType } from "@/components/nav-main"
-import { BadgeAlert, UsersRound, Gauge, House, Rocket } from "lucide-react"
+import { BadgeAlert, Gauge, House, Logs, Rocket } from "lucide-react"
 import { TeamSwitcher } from "./team-switcher"
 import type { TeamPubilc } from "@/client"
 
@@ -39,6 +37,11 @@ export const data: sidebarDataType = {
       title: "任务列表",
       icon: Gauge,
       url: "jobs",
+    },
+    {
+      title: "任务日志",
+      icon: Logs,
+      url: "record",
     },
     {
       title: "Getting Started",
