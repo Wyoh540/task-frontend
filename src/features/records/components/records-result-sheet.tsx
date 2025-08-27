@@ -39,7 +39,7 @@ export function RecordResultSheet({ task_id }: Props) {
           <SheetTitle>任务结果</SheetTitle>
         </SheetHeader>
         <MonacoEditor
-          value={recordResult?.result.stdout || ""}
+          value={recordResult?.result?.stdout || ""}
           language="python"
         />
       </SheetContent>

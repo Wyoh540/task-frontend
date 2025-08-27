@@ -2,7 +2,6 @@ import type { ColumnDef } from "@tanstack/react-table"
 import type { JobOut } from "@/client/types.gen"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { Button } from "@/components/ui/button"
-import { Play } from "lucide-react"
 
 import { useNavigate } from "@tanstack/react-router"
 
@@ -48,14 +47,7 @@ export const columns: ColumnDef<JobOut, any>[] = [
     id: "actions",
     header: "操作",
     cell: ({ row }) => {
-      return (
-        <div className="flex gap-2">
-          <Button variant="ghost">
-            <Play />
-          </Button>
-          <DataTableRowActions row={row} />
-        </div>
-      )
+      return <DataTableRowActions row={row} />
     },
   },
 ]
