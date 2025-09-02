@@ -3,7 +3,7 @@ import { useParams } from "@tanstack/react-router"
 import { DataTable } from "./components/data-table"
 import { columns } from "./components/columns"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { getTasksOptions } from "@/client/@tanstack/react-query.gen"
+import { listJobsOptions } from "@/client/@tanstack/react-query.gen"
 import { useState } from "react"
 import JobsProvider from "./context/jobs-context"
 import { JobsPrimaryButtons } from "./components/jobs-primary-buttons"
@@ -19,7 +19,7 @@ export default function Jobs() {
   })
 
   const { data, isPending } = useQuery({
-    ...getTasksOptions({
+    ...listJobsOptions({
       path: { team_id: Number(teamId) },
       query: {
         page: paginationState.pageIndex + 1,

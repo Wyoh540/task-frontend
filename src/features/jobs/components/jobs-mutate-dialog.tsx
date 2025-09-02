@@ -2,6 +2,7 @@ import { z } from "zod"
 import { useEffect } from "react"
 import type { JobOut, Language } from "@/client"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Dialog,
@@ -30,8 +31,9 @@ import {
   SelectItem,
 } from "@/components/ui/select"
 import {
-  createTaskMutation,
-  getTasksQueryKey,
+  createJobMutation,
+  listJobsQueryKey,
+  updateJobMutation,
   listLanguagesOptions,
 } from "@/client/@tanstack/react-query.gen"
 import { useParams } from "@tanstack/react-router"
@@ -84,26 +86,52 @@ export function JobsMutateDialog({ open, onOpenChange, currentRow }: Props) {
   }, [currentRow, form, open])
 
   // 新增/编辑提交
-  const createJobMutation = useMutation({
-    ...createTaskMutation(),
+  const createJobMut = useMutation({
+    ...createJobMutation(),
     onSuccess: () => {
       form.reset()
+      toast.success("任务创建成功")
     },
     onError: (err) => {
       console.log(err)
     },
     onSettled: () => {
       queryclient.invalidateQueries({
-        queryKey: getTasksQueryKey({ path: { team_id: Number(teamId) } }),
+        queryKey: listJobsQueryKey({ path: { team_id: Number(teamId) } }),
       })
     },
   })
+
+  const updateJobMut = useMutation({
+    ...updateJobMutation(),
+    onSuccess: () => {
+      form.reset()
+      toast.success("任务更新成功")
+    },
+    onError: (err) => {
+      console.log(err)
+    },
+    onSettled: () => {
+      queryclient.invalidateQueries({
+        queryKey: listJobsQueryKey({ path: { team_id: Number(teamId) } }),
+      })
+    },
+  })
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     // 编辑模式下可在此处调用自定义updateJob接口
-    createJobMutation.mutateAsync({
-      body: values,
-      path: { team_id: Number(teamId) },
-    })
+    onOpenChange(false)
+    if (isUpdate) {
+      updateJobMut.mutateAsync({
+        body: values,
+        path: { team_id: Number(teamId), job_id: currentRow?.id },
+      })
+    } else {
+      createJobMut.mutateAsync({
+        body: values,
+        path: { team_id: Number(teamId) },
+      })
+    }
   }
 
   return (
@@ -206,7 +234,7 @@ export function JobsMutateDialog({ open, onOpenChange, currentRow }: Props) {
                   取消
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={createJobMutation.isPending}>
+              <Button type="submit" disabled={createJobMut.isPending}>
                 {isUpdate ? "保存修改" : "新建"}
               </Button>
             </DialogFooter>

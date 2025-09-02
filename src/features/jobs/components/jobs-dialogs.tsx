@@ -15,7 +15,7 @@ export function JobsDialogs() {
       {currentRow && (
         <>
           <JobsMutateDialog
-            key="task-update"
+            key={`task-update-${currentRow.id}`}
             open={open === "update"}
             onOpenChange={() => {
               setOpen("update")

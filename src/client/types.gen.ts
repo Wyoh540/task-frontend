@@ -36,6 +36,15 @@ export type JobOut = {
     owner: UserPubic;
 };
 
+export type JobUpdate = {
+    name?: string | null;
+    description?: string | null;
+    script_content?: string | null;
+    script_path?: string | null;
+    ignore_result?: boolean | null;
+    language_id?: number | null;
+};
+
 /**
  * 语言表
  */
@@ -93,10 +102,21 @@ export type PageWorkNode = {
 };
 
 /**
+ * 任务执行结果
+ */
+export type Result = {
+    stdout: string;
+    stderr: string;
+    return_code: number;
+    success: boolean;
+};
+
+/**
  * 任务执行结果详情
  */
 export type TaskResult = {
     task_id: string;
+    create_at: string;
     /**
      * 任务状态
      */
@@ -104,7 +124,7 @@ export type TaskResult = {
     /**
      * 任务执行结果
      */
-    result: unknown | null;
+    result: Result | null;
     /**
      * 任务完成时间
      */
@@ -116,6 +136,7 @@ export type TaskResult = {
  */
 export type TaskResultList = {
     task_id: string;
+    create_at: string;
     /**
      * 任务状态
      */
@@ -184,10 +205,16 @@ export type UserCreate = {
 };
 
 export type UserPubic = {
-    id?: number | null;
+    id: number;
+    username: string;
     email?: string | null;
+    phone?: string | null;
     is_active?: boolean;
     is_superuser?: boolean;
+};
+
+export type UserUpdate = {
+    email?: string | null;
     full_name?: string | null;
 };
 
@@ -312,6 +339,31 @@ export type GetUserMeResponses = {
 
 export type GetUserMeResponse = GetUserMeResponses[keyof GetUserMeResponses];
 
+export type PatchUserMeData = {
+    body: UserUpdate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/users/me';
+};
+
+export type PatchUserMeErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type PatchUserMeError = PatchUserMeErrors[keyof PatchUserMeErrors];
+
+export type PatchUserMeResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserPubic;
+};
+
+export type PatchUserMeResponse = PatchUserMeResponses[keyof PatchUserMeResponses];
+
 export type GetTeamsData = {
     body?: never;
     path?: never;
@@ -425,7 +477,7 @@ export type GetTeamResponses = {
 
 export type GetTeamResponse = GetTeamResponses[keyof GetTeamResponses];
 
-export type GetTasksData = {
+export type ListJobsData = {
     body?: never;
     path: {
         team_id: number;
@@ -443,25 +495,25 @@ export type GetTasksData = {
     url: '/api/v1/team/{team_id}/job';
 };
 
-export type GetTasksErrors = {
+export type ListJobsErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type GetTasksError = GetTasksErrors[keyof GetTasksErrors];
+export type ListJobsError = ListJobsErrors[keyof ListJobsErrors];
 
-export type GetTasksResponses = {
+export type ListJobsResponses = {
     /**
      * Successful Response
      */
     200: PageJobOut;
 };
 
-export type GetTasksResponse = GetTasksResponses[keyof GetTasksResponses];
+export type ListJobsResponse = ListJobsResponses[keyof ListJobsResponses];
 
-export type CreateTaskData = {
+export type CreateJobData = {
     body: JobCreate;
     path: {
         team_id: number;
@@ -470,23 +522,51 @@ export type CreateTaskData = {
     url: '/api/v1/team/{team_id}/job';
 };
 
-export type CreateTaskErrors = {
+export type CreateJobErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type CreateTaskError = CreateTaskErrors[keyof CreateTaskErrors];
+export type CreateJobError = CreateJobErrors[keyof CreateJobErrors];
 
-export type CreateTaskResponses = {
+export type CreateJobResponses = {
     /**
      * Successful Response
      */
     200: JobOut;
 };
 
-export type CreateTaskResponse = CreateTaskResponses[keyof CreateTaskResponses];
+export type CreateJobResponse = CreateJobResponses[keyof CreateJobResponses];
+
+export type DeleteJobData = {
+    body?: never;
+    path: {
+        team_id: number;
+        job_id: number;
+    };
+    query?: never;
+    url: '/api/v1/team/{team_id}/job/{job_id}';
+};
+
+export type DeleteJobErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteJobError = DeleteJobErrors[keyof DeleteJobErrors];
+
+export type DeleteJobResponses = {
+    /**
+     * Successful Response
+     */
+    204: void;
+};
+
+export type DeleteJobResponse = DeleteJobResponses[keyof DeleteJobResponses];
 
 export type RunTaskData = {
     body?: never;
@@ -515,6 +595,34 @@ export type RunTaskResponses = {
 };
 
 export type RunTaskResponse = RunTaskResponses[keyof RunTaskResponses];
+
+export type UpdateJobData = {
+    body: JobUpdate;
+    path: {
+        team_id: number;
+        job_id: number;
+    };
+    query?: never;
+    url: '/api/v1/team/{team_id}/job/{job_id}';
+};
+
+export type UpdateJobErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateJobError = UpdateJobErrors[keyof UpdateJobErrors];
+
+export type UpdateJobResponses = {
+    /**
+     * Successful Response
+     */
+    200: JobOut;
+};
+
+export type UpdateJobResponse = UpdateJobResponses[keyof UpdateJobResponses];
 
 export type ListJobTasksData = {
     body?: never;
@@ -647,7 +755,7 @@ export type ListTeamMembersResponses = {
 
 export type ListTeamMembersResponse = ListTeamMembersResponses[keyof ListTeamMembersResponses];
 
-export type AddTeamMemberData = {
+export type CreateTeamMemberData = {
     body: TeamMemberCreate;
     path: {
         team_id: number;
@@ -656,23 +764,23 @@ export type AddTeamMemberData = {
     url: '/api/v1/team/{team_id}/members';
 };
 
-export type AddTeamMemberErrors = {
+export type CreateTeamMemberErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type AddTeamMemberError = AddTeamMemberErrors[keyof AddTeamMemberErrors];
+export type CreateTeamMemberError = CreateTeamMemberErrors[keyof CreateTeamMemberErrors];
 
-export type AddTeamMemberResponses = {
+export type CreateTeamMemberResponses = {
     /**
      * Successful Response
      */
     200: TeamMemberPublic;
 };
 
-export type AddTeamMemberResponse = AddTeamMemberResponses[keyof AddTeamMemberResponses];
+export type CreateTeamMemberResponse = CreateTeamMemberResponses[keyof CreateTeamMemberResponses];
 
 export type RemoveTeamMemberData = {
     body?: never;

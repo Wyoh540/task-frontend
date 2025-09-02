@@ -12,6 +12,10 @@ export const columns: ColumnDef<TaskResultList, any>[] = [
     header: "状态",
   },
   {
+    accessorKey: "create_at",
+    header: "创建时间",
+  },
+  {
     accessorKey: "date_done",
     header: "完成时间",
   },
