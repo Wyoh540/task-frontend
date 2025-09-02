@@ -4,10 +4,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontalIcon } from "lucide-react"
+import { MoreHorizontalIcon, Trash2 } from "lucide-react"
 import type { JobOut } from "@/client/types.gen"
 import { Play } from "lucide-react"
 import { useMutation } from "@tanstack/react-query"
@@ -63,6 +65,18 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
             }}
           >
             编辑
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => {
+              setCurrentRow(job)
+              setOpen("delete")
+            }}
+          >
+            Delete
+            <DropdownMenuShortcut>
+              <Trash2 size={16} />
+            </DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
