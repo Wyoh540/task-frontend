@@ -4,12 +4,13 @@ import { Main } from "@/components/layout/main"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { useParams } from "@tanstack/react-router"
 import { useState } from "react"
-import { columns } from "./components/columns"
+import { useRecordColumns } from "./components/columns"
 import { DataTable } from "./components/data-table"
 import RecordsProvider from "./context/record-context"
 
 export default function JobRecords() {
   const { teamId, jobId } = useParams({ strict: false })
+  const columns = useRecordColumns()
   const [paginationState, setPaginationState] = useState({
     pageIndex: 0,
     pageSize: 10,

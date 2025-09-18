@@ -1,15 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
-
+import { getTeamOptions } from "@/client/@tanstack/react-query.gen"
 import { Card } from "@/components/ui/card"
 import { useQuery } from "@tanstack/react-query"
-import { getTeamOptions } from "@/client/@tanstack/react-query.gen"
+import { useParams } from "@tanstack/react-router"
 
-export const Route = createFileRoute("/teams_/$teamId/_layout/home")({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  const { teamId } = Route.useParams()
+export function Dashboard() {
+  const { teamId } = useParams({ strict: false })
 
   // 假设团队人数为假数据，job数量通过API获取
   const teamMemberCount = 12

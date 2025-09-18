@@ -1,35 +1,30 @@
-import React, { Suspense } from "react"
-import { Outlet, createRootRoute } from "@tanstack/react-router"
+import { type QueryClient } from "@tanstack/react-query"
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
+import { Toaster } from "@/components/ui/sonner"
+import { NavigationProgress } from "@/components/navigation-progress"
+import { GeneralError } from "@/features/errors/general-error"
+import { NotFoundError } from "@/features/errors/not-found-error"
 
-const loadDevtools = () =>
-  Promise.all([
-    import("@tanstack/router-devtools"),
-    import("@tanstack/react-query-devtools"),
-  ]).then(([routerDevtools, reactQueryDevtools]) => {
-    return {
-      default: () => (
-        <>
-          <routerDevtools.TanStackRouterDevtools />
-          <reactQueryDevtools.ReactQueryDevtools />
-        </>
-      ),
-    }
-  })
-const TanStackDevtools =
-  process.env.NODE_ENV === "production" ? () => null : React.lazy(loadDevtools)
-
-export const Route = createRootRoute({
-  component: RootComponent,
-  notFoundComponent: () => <div>404 Not Found</div>,
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient
+}>()({
+  component: () => {
+    return (
+      <>
+        <NavigationProgress />
+        <Outlet />
+        <Toaster duration={5000} />
+        {import.meta.env.MODE === "development" && (
+          <>
+            <ReactQueryDevtools buttonPosition="bottom-left" />
+            <TanStackRouterDevtools position="bottom-right" />
+          </>
+        )}
+      </>
+    )
+  },
+  notFoundComponent: NotFoundError,
+  errorComponent: GeneralError,
 })
-
-function RootComponent() {
-  return (
-    <>
-      <Outlet />
-      <Suspense>
-        <TanStackDevtools />
-      </Suspense>
-    </>
-  )
-}

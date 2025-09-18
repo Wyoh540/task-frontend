@@ -8,33 +8,15 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TeamsImport } from './routes/teams'
 import { Route as LoginImport } from './routes/login'
-import { Route as LayoutTeamImport } from './routes/_layout/team'
-import { Route as TeamsTeamIdLayoutImport } from './routes/teams_/$teamId/_layout'
-import { Route as TeamsTeamIdLayoutRecordImport } from './routes/teams_/$teamId/_layout/record'
-import { Route as TeamsTeamIdLayoutHomeImport } from './routes/teams_/$teamId/_layout/home'
-import { Route as TeamsTeamIdLayoutDashboardImport } from './routes/teams_/$teamId/_layout/dashboard'
-import { Route as TeamsTeamIdLayoutAboutImport } from './routes/teams_/$teamId/_layout/about'
-import { Route as TeamsTeamIdLayoutJobsIndexImport } from './routes/teams_/$teamId/_layout/jobs/index'
-import { Route as TeamsTeamIdLayoutJobsJobIdRecordImport } from './routes/teams_/$teamId/_layout/jobs_/$jobId/record'
-
-// Create Virtual Routes
-
-const TeamsTeamIdImport = createFileRoute('/teams_/$teamId')()
+import { Route as AuthenticatedTeamsImport } from './routes/_authenticated/teams'
+import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated/teams_/$teamId/route'
+import { Route as AuthenticatedTeamsTeamIdIndexImport } from './routes/_authenticated/teams_/$teamId/index'
 
 // Create/Update Routes
-
-const TeamsRoute = TeamsImport.update({
-  id: '/teams',
-  path: '/teams',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -42,62 +24,24 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const TeamsTeamIdRoute = TeamsTeamIdImport.update({
-  id: '/teams_/$teamId',
-  path: '/teams/$teamId',
+const AuthenticatedTeamsRoute = AuthenticatedTeamsImport.update({
+  id: '/_authenticated/teams',
+  path: '/teams',
   getParentRoute: () => rootRoute,
 } as any)
 
-const LayoutTeamRoute = LayoutTeamImport.update({
-  id: '/_layout/team',
-  path: '/team',
-  getParentRoute: () => rootRoute,
-} as any)
+const AuthenticatedTeamsTeamIdRouteRoute =
+  AuthenticatedTeamsTeamIdRouteImport.update({
+    id: '/_authenticated/teams_/$teamId',
+    path: '/teams/$teamId',
+    getParentRoute: () => rootRoute,
+  } as any)
 
-const TeamsTeamIdLayoutRoute = TeamsTeamIdLayoutImport.update({
-  id: '/_layout',
-  getParentRoute: () => TeamsTeamIdRoute,
-} as any)
-
-const TeamsTeamIdLayoutRecordRoute = TeamsTeamIdLayoutRecordImport.update({
-  id: '/record',
-  path: '/record',
-  getParentRoute: () => TeamsTeamIdLayoutRoute,
-} as any)
-
-const TeamsTeamIdLayoutHomeRoute = TeamsTeamIdLayoutHomeImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => TeamsTeamIdLayoutRoute,
-} as any)
-
-const TeamsTeamIdLayoutDashboardRoute = TeamsTeamIdLayoutDashboardImport.update(
-  {
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => TeamsTeamIdLayoutRoute,
-  } as any,
-)
-
-const TeamsTeamIdLayoutAboutRoute = TeamsTeamIdLayoutAboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => TeamsTeamIdLayoutRoute,
-} as any)
-
-const TeamsTeamIdLayoutJobsIndexRoute = TeamsTeamIdLayoutJobsIndexImport.update(
-  {
-    id: '/jobs/',
-    path: '/jobs/',
-    getParentRoute: () => TeamsTeamIdLayoutRoute,
-  } as any,
-)
-
-const TeamsTeamIdLayoutJobsJobIdRecordRoute =
-  TeamsTeamIdLayoutJobsJobIdRecordImport.update({
-    id: '/jobs_/$jobId/record',
-    path: '/jobs/$jobId/record',
-    getParentRoute: () => TeamsTeamIdLayoutRoute,
+const AuthenticatedTeamsTeamIdIndexRoute =
+  AuthenticatedTeamsTeamIdIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedTeamsTeamIdRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -111,208 +55,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/teams': {
-      id: '/teams'
+    '/_authenticated/teams': {
+      id: '/_authenticated/teams'
       path: '/teams'
       fullPath: '/teams'
-      preLoaderRoute: typeof TeamsImport
+      preLoaderRoute: typeof AuthenticatedTeamsImport
       parentRoute: typeof rootRoute
     }
-    '/_layout/team': {
-      id: '/_layout/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof LayoutTeamImport
-      parentRoute: typeof rootRoute
-    }
-    '/teams_/$teamId': {
-      id: '/teams_/$teamId'
+    '/_authenticated/teams_/$teamId': {
+      id: '/_authenticated/teams_/$teamId'
       path: '/teams/$teamId'
       fullPath: '/teams/$teamId'
-      preLoaderRoute: typeof TeamsTeamIdImport
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdRouteImport
       parentRoute: typeof rootRoute
     }
-    '/teams_/$teamId/_layout': {
-      id: '/teams_/$teamId/_layout'
-      path: '/teams/$teamId'
-      fullPath: '/teams/$teamId'
-      preLoaderRoute: typeof TeamsTeamIdLayoutImport
-      parentRoute: typeof TeamsTeamIdRoute
-    }
-    '/teams_/$teamId/_layout/about': {
-      id: '/teams_/$teamId/_layout/about'
-      path: '/about'
-      fullPath: '/teams/$teamId/about'
-      preLoaderRoute: typeof TeamsTeamIdLayoutAboutImport
-      parentRoute: typeof TeamsTeamIdLayoutImport
-    }
-    '/teams_/$teamId/_layout/dashboard': {
-      id: '/teams_/$teamId/_layout/dashboard'
-      path: '/dashboard'
-      fullPath: '/teams/$teamId/dashboard'
-      preLoaderRoute: typeof TeamsTeamIdLayoutDashboardImport
-      parentRoute: typeof TeamsTeamIdLayoutImport
-    }
-    '/teams_/$teamId/_layout/home': {
-      id: '/teams_/$teamId/_layout/home'
-      path: '/home'
-      fullPath: '/teams/$teamId/home'
-      preLoaderRoute: typeof TeamsTeamIdLayoutHomeImport
-      parentRoute: typeof TeamsTeamIdLayoutImport
-    }
-    '/teams_/$teamId/_layout/record': {
-      id: '/teams_/$teamId/_layout/record'
-      path: '/record'
-      fullPath: '/teams/$teamId/record'
-      preLoaderRoute: typeof TeamsTeamIdLayoutRecordImport
-      parentRoute: typeof TeamsTeamIdLayoutImport
-    }
-    '/teams_/$teamId/_layout/jobs/': {
-      id: '/teams_/$teamId/_layout/jobs/'
-      path: '/jobs'
-      fullPath: '/teams/$teamId/jobs'
-      preLoaderRoute: typeof TeamsTeamIdLayoutJobsIndexImport
-      parentRoute: typeof TeamsTeamIdLayoutImport
-    }
-    '/teams_/$teamId/_layout/jobs_/$jobId/record': {
-      id: '/teams_/$teamId/_layout/jobs_/$jobId/record'
-      path: '/jobs/$jobId/record'
-      fullPath: '/teams/$teamId/jobs/$jobId/record'
-      preLoaderRoute: typeof TeamsTeamIdLayoutJobsJobIdRecordImport
-      parentRoute: typeof TeamsTeamIdLayoutImport
+    '/_authenticated/teams_/$teamId/': {
+      id: '/_authenticated/teams_/$teamId/'
+      path: '/'
+      fullPath: '/teams/$teamId/'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdIndexImport
+      parentRoute: typeof AuthenticatedTeamsTeamIdRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface TeamsTeamIdLayoutRouteChildren {
-  TeamsTeamIdLayoutAboutRoute: typeof TeamsTeamIdLayoutAboutRoute
-  TeamsTeamIdLayoutDashboardRoute: typeof TeamsTeamIdLayoutDashboardRoute
-  TeamsTeamIdLayoutHomeRoute: typeof TeamsTeamIdLayoutHomeRoute
-  TeamsTeamIdLayoutRecordRoute: typeof TeamsTeamIdLayoutRecordRoute
-  TeamsTeamIdLayoutJobsIndexRoute: typeof TeamsTeamIdLayoutJobsIndexRoute
-  TeamsTeamIdLayoutJobsJobIdRecordRoute: typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
+interface AuthenticatedTeamsTeamIdRouteRouteChildren {
+  AuthenticatedTeamsTeamIdIndexRoute: typeof AuthenticatedTeamsTeamIdIndexRoute
 }
 
-const TeamsTeamIdLayoutRouteChildren: TeamsTeamIdLayoutRouteChildren = {
-  TeamsTeamIdLayoutAboutRoute: TeamsTeamIdLayoutAboutRoute,
-  TeamsTeamIdLayoutDashboardRoute: TeamsTeamIdLayoutDashboardRoute,
-  TeamsTeamIdLayoutHomeRoute: TeamsTeamIdLayoutHomeRoute,
-  TeamsTeamIdLayoutRecordRoute: TeamsTeamIdLayoutRecordRoute,
-  TeamsTeamIdLayoutJobsIndexRoute: TeamsTeamIdLayoutJobsIndexRoute,
-  TeamsTeamIdLayoutJobsJobIdRecordRoute: TeamsTeamIdLayoutJobsJobIdRecordRoute,
-}
+const AuthenticatedTeamsTeamIdRouteRouteChildren: AuthenticatedTeamsTeamIdRouteRouteChildren =
+  {
+    AuthenticatedTeamsTeamIdIndexRoute: AuthenticatedTeamsTeamIdIndexRoute,
+  }
 
-const TeamsTeamIdLayoutRouteWithChildren =
-  TeamsTeamIdLayoutRoute._addFileChildren(TeamsTeamIdLayoutRouteChildren)
-
-interface TeamsTeamIdRouteChildren {
-  TeamsTeamIdLayoutRoute: typeof TeamsTeamIdLayoutRouteWithChildren
-}
-
-const TeamsTeamIdRouteChildren: TeamsTeamIdRouteChildren = {
-  TeamsTeamIdLayoutRoute: TeamsTeamIdLayoutRouteWithChildren,
-}
-
-const TeamsTeamIdRouteWithChildren = TeamsTeamIdRoute._addFileChildren(
-  TeamsTeamIdRouteChildren,
-)
+const AuthenticatedTeamsTeamIdRouteRouteWithChildren =
+  AuthenticatedTeamsTeamIdRouteRoute._addFileChildren(
+    AuthenticatedTeamsTeamIdRouteRouteChildren,
+  )
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
-  '/teams': typeof TeamsRoute
-  '/team': typeof LayoutTeamRoute
-  '/teams/$teamId': typeof TeamsTeamIdLayoutRouteWithChildren
-  '/teams/$teamId/about': typeof TeamsTeamIdLayoutAboutRoute
-  '/teams/$teamId/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
-  '/teams/$teamId/home': typeof TeamsTeamIdLayoutHomeRoute
-  '/teams/$teamId/record': typeof TeamsTeamIdLayoutRecordRoute
-  '/teams/$teamId/jobs': typeof TeamsTeamIdLayoutJobsIndexRoute
-  '/teams/$teamId/jobs/$jobId/record': typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
+  '/teams': typeof AuthenticatedTeamsRoute
+  '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRouteRouteWithChildren
+  '/teams/$teamId/': typeof AuthenticatedTeamsTeamIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/teams': typeof TeamsRoute
-  '/team': typeof LayoutTeamRoute
-  '/teams/$teamId': typeof TeamsTeamIdLayoutRouteWithChildren
-  '/teams/$teamId/about': typeof TeamsTeamIdLayoutAboutRoute
-  '/teams/$teamId/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
-  '/teams/$teamId/home': typeof TeamsTeamIdLayoutHomeRoute
-  '/teams/$teamId/record': typeof TeamsTeamIdLayoutRecordRoute
-  '/teams/$teamId/jobs': typeof TeamsTeamIdLayoutJobsIndexRoute
-  '/teams/$teamId/jobs/$jobId/record': typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
+  '/teams': typeof AuthenticatedTeamsRoute
+  '/teams/$teamId': typeof AuthenticatedTeamsTeamIdIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/login': typeof LoginRoute
-  '/teams': typeof TeamsRoute
-  '/_layout/team': typeof LayoutTeamRoute
-  '/teams_/$teamId': typeof TeamsTeamIdRouteWithChildren
-  '/teams_/$teamId/_layout': typeof TeamsTeamIdLayoutRouteWithChildren
-  '/teams_/$teamId/_layout/about': typeof TeamsTeamIdLayoutAboutRoute
-  '/teams_/$teamId/_layout/dashboard': typeof TeamsTeamIdLayoutDashboardRoute
-  '/teams_/$teamId/_layout/home': typeof TeamsTeamIdLayoutHomeRoute
-  '/teams_/$teamId/_layout/record': typeof TeamsTeamIdLayoutRecordRoute
-  '/teams_/$teamId/_layout/jobs/': typeof TeamsTeamIdLayoutJobsIndexRoute
-  '/teams_/$teamId/_layout/jobs_/$jobId/record': typeof TeamsTeamIdLayoutJobsJobIdRecordRoute
+  '/_authenticated/teams': typeof AuthenticatedTeamsRoute
+  '/_authenticated/teams_/$teamId': typeof AuthenticatedTeamsTeamIdRouteRouteWithChildren
+  '/_authenticated/teams_/$teamId/': typeof AuthenticatedTeamsTeamIdIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/login'
-    | '/teams'
-    | '/team'
-    | '/teams/$teamId'
-    | '/teams/$teamId/about'
-    | '/teams/$teamId/dashboard'
-    | '/teams/$teamId/home'
-    | '/teams/$teamId/record'
-    | '/teams/$teamId/jobs'
-    | '/teams/$teamId/jobs/$jobId/record'
+  fullPaths: '/login' | '/teams' | '/teams/$teamId' | '/teams/$teamId/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/login'
-    | '/teams'
-    | '/team'
-    | '/teams/$teamId'
-    | '/teams/$teamId/about'
-    | '/teams/$teamId/dashboard'
-    | '/teams/$teamId/home'
-    | '/teams/$teamId/record'
-    | '/teams/$teamId/jobs'
-    | '/teams/$teamId/jobs/$jobId/record'
+  to: '/login' | '/teams' | '/teams/$teamId'
   id:
     | '__root__'
     | '/login'
-    | '/teams'
-    | '/_layout/team'
-    | '/teams_/$teamId'
-    | '/teams_/$teamId/_layout'
-    | '/teams_/$teamId/_layout/about'
-    | '/teams_/$teamId/_layout/dashboard'
-    | '/teams_/$teamId/_layout/home'
-    | '/teams_/$teamId/_layout/record'
-    | '/teams_/$teamId/_layout/jobs/'
-    | '/teams_/$teamId/_layout/jobs_/$jobId/record'
+    | '/_authenticated/teams'
+    | '/_authenticated/teams_/$teamId'
+    | '/_authenticated/teams_/$teamId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
-  TeamsRoute: typeof TeamsRoute
-  LayoutTeamRoute: typeof LayoutTeamRoute
-  TeamsTeamIdRoute: typeof TeamsTeamIdRouteWithChildren
+  AuthenticatedTeamsRoute: typeof AuthenticatedTeamsRoute
+  AuthenticatedTeamsTeamIdRouteRoute: typeof AuthenticatedTeamsTeamIdRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
-  TeamsRoute: TeamsRoute,
-  LayoutTeamRoute: LayoutTeamRoute,
-  TeamsTeamIdRoute: TeamsTeamIdRouteWithChildren,
+  AuthenticatedTeamsRoute: AuthenticatedTeamsRoute,
+  AuthenticatedTeamsTeamIdRouteRoute:
+    AuthenticatedTeamsTeamIdRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -326,61 +154,25 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/login",
-        "/teams",
-        "/_layout/team",
-        "/teams_/$teamId"
+        "/_authenticated/teams",
+        "/_authenticated/teams_/$teamId"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/teams": {
-      "filePath": "teams.tsx"
+    "/_authenticated/teams": {
+      "filePath": "_authenticated/teams.tsx"
     },
-    "/_layout/team": {
-      "filePath": "_layout/team.tsx"
-    },
-    "/teams_/$teamId": {
-      "filePath": "teams_/$teamId",
+    "/_authenticated/teams_/$teamId": {
+      "filePath": "_authenticated/teams_/$teamId/route.tsx",
       "children": [
-        "/teams_/$teamId/_layout"
+        "/_authenticated/teams_/$teamId/"
       ]
     },
-    "/teams_/$teamId/_layout": {
-      "filePath": "teams_/$teamId/_layout.tsx",
-      "parent": "/teams_/$teamId",
-      "children": [
-        "/teams_/$teamId/_layout/about",
-        "/teams_/$teamId/_layout/dashboard",
-        "/teams_/$teamId/_layout/home",
-        "/teams_/$teamId/_layout/record",
-        "/teams_/$teamId/_layout/jobs/",
-        "/teams_/$teamId/_layout/jobs_/$jobId/record"
-      ]
-    },
-    "/teams_/$teamId/_layout/about": {
-      "filePath": "teams_/$teamId/_layout/about.tsx",
-      "parent": "/teams_/$teamId/_layout"
-    },
-    "/teams_/$teamId/_layout/dashboard": {
-      "filePath": "teams_/$teamId/_layout/dashboard.tsx",
-      "parent": "/teams_/$teamId/_layout"
-    },
-    "/teams_/$teamId/_layout/home": {
-      "filePath": "teams_/$teamId/_layout/home.tsx",
-      "parent": "/teams_/$teamId/_layout"
-    },
-    "/teams_/$teamId/_layout/record": {
-      "filePath": "teams_/$teamId/_layout/record.tsx",
-      "parent": "/teams_/$teamId/_layout"
-    },
-    "/teams_/$teamId/_layout/jobs/": {
-      "filePath": "teams_/$teamId/_layout/jobs/index.tsx",
-      "parent": "/teams_/$teamId/_layout"
-    },
-    "/teams_/$teamId/_layout/jobs_/$jobId/record": {
-      "filePath": "teams_/$teamId/_layout/jobs_/$jobId/record.tsx",
-      "parent": "/teams_/$teamId/_layout"
+    "/_authenticated/teams_/$teamId/": {
+      "filePath": "_authenticated/teams_/$teamId/index.tsx",
+      "parent": "/_authenticated/teams_/$teamId"
     }
   }
 }

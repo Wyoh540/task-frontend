@@ -2,7 +2,7 @@ import { useState } from "react"
 
 import { Loader2 } from "lucide-react"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm, type SubmitHandler } from "react-hook-form"
 
@@ -37,9 +37,6 @@ import {
 } from "@/components/ui/form"
 import type { TeamCreate } from "@/client"
 import { Textarea } from "@/components/ui/textarea"
-export const Route = createFileRoute("/teams")({
-  component: RouteComponent,
-})
 
 function CreateTeam() {
   const [open, setOpen] = useState(false)
@@ -131,7 +128,7 @@ function CreateTeam() {
   )
 }
 
-function RouteComponent() {
+export function Teams() {
   const navigate = useNavigate()
 
   // 团队列表数据请求
@@ -153,7 +150,7 @@ function RouteComponent() {
             {data?.items.map((team) => (
               <Card
                 key={team.id}
-                onClick={() => navigate({ to: `/teams/${team.id}/home` })}
+                onClick={() => navigate({ to: `/teams/${team.id}` })}
               >
                 <CardHeader>
                   <CardTitle>{team.name}</CardTitle>
