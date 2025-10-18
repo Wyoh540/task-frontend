@@ -13,6 +13,7 @@ import { MoreHorizontalIcon, Trash2 } from "lucide-react"
 import type { JobOut } from "@/client/types.gen"
 import { Play } from "lucide-react"
 import { useMutation } from "@tanstack/react-query"
+import { useNavigate } from "@tanstack/react-router"
 import { runTaskMutation } from "@/client/@tanstack/react-query.gen"
 import { toast } from "sonner"
 
@@ -22,7 +23,7 @@ interface DataTableRowActionsProps {
 
 export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   const job = row.original
-
+  const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useJobs()
 
   const runJobMutation = useMutation({
@@ -59,10 +60,11 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem
-            onClick={() => {
-              setCurrentRow(job)
-              setOpen("update")
-            }}
+            onClick={() =>
+              navigate({
+                to: `/teams/${job.team_id}/jobs/${job.id}/job-update`,
+              })
+            }
           >
             编辑
           </DropdownMenuItem>

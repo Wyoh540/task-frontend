@@ -9,8 +9,12 @@ import JobsProvider from "./context/jobs-context"
 import { JobsPrimaryButtons } from "./components/jobs-primary-buttons"
 import { JobsDialogs } from "./components/jobs-dialogs"
 import { Main } from "@/components/layout/main"
+import { Header } from "@/components/layout/header"
+import { ThemeSwitch } from "@/components/theme-switch"
+import { ConfigDrawer } from "@/components/config-drawer"
+import { ProfileDropdown } from "@/components/profile-dropdown"
 
-export default function Jobs() {
+export function Jobs() {
   const { teamId } = useParams({ strict: false })
   // 分页默认配置
   const [paginationState, setPaginationState] = useState({
@@ -31,6 +35,14 @@ export default function Jobs() {
 
   return (
     <JobsProvider>
+      <Header fixed>
+        <div className="ms-auto flex items-center space-x-4">
+          <ThemeSwitch />
+          <ConfigDrawer />
+          <ProfileDropdown />
+        </div>
+      </Header>
+
       <Main>
         <div className="mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4">
           <div>

@@ -9,6 +9,9 @@ import { Toaster } from "@/components/ui/sonner.tsx"
 import reportWebVitals from "./reportWebVitals.ts"
 import { routeTree } from "./routeTree.gen.ts"
 import { client } from "@/client/client.gen.ts"
+import { ThemeProvider } from "./context/theme-provider.tsx"
+import { FontProvider } from "./context/font-provider.tsx"
+import { DirectionProvider } from "./context/direction-provider.tsx"
 
 // 请求拦截器
 client.instance.interceptors.request.use((config) => {
@@ -63,8 +66,14 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster position="top-center" richColors />
+        <ThemeProvider>
+          <FontProvider>
+            <DirectionProvider>
+              <RouterProvider router={router} />
+              <Toaster position="top-center" richColors />
+            </DirectionProvider>
+          </FontProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>,
   )

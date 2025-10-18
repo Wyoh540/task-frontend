@@ -7,8 +7,12 @@ import { useState } from "react"
 import { useRecordColumns } from "./components/columns"
 import { DataTable } from "./components/data-table"
 import RecordsProvider from "./context/record-context"
+import { Header } from "@/components/layout/header"
+import { ThemeSwitch } from "@/components/theme-switch"
+import { ConfigDrawer } from "@/components/config-drawer"
+import { ProfileDropdown } from "@/components/profile-dropdown"
 
-export default function JobRecords() {
+export function JobRecords() {
   const { teamId, jobId } = useParams({ strict: false })
   const columns = useRecordColumns()
   const [paginationState, setPaginationState] = useState({
@@ -29,6 +33,13 @@ export default function JobRecords() {
 
   return (
     <RecordsProvider>
+      <Header fixed>
+        <div className="ms-auto flex items-center space-x-4">
+          <ThemeSwitch />
+          <ConfigDrawer />
+          <ProfileDropdown />
+        </div>
+      </Header>
       <Main>
         <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12">
           <DataTable

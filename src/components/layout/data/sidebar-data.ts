@@ -54,14 +54,15 @@ export const sidebarData: SidebarData = {
       items: [
         {
           title: '首页',
-          url: '',
+          url: '/teams/$teamId',
           icon: House,
         },
         {
           title: '任务',
-          url: '/jobs',
+          url: '/teams/$teamId/jobs',
           icon: ListTodo,
-        }
+        },
+        
       ],
     },
 

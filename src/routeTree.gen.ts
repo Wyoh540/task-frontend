@@ -15,6 +15,10 @@ import { Route as LoginImport } from './routes/login'
 import { Route as AuthenticatedTeamsImport } from './routes/_authenticated/teams'
 import { Route as AuthenticatedTeamsTeamIdRouteImport } from './routes/_authenticated/teams_/$teamId/route'
 import { Route as AuthenticatedTeamsTeamIdIndexImport } from './routes/_authenticated/teams_/$teamId/index'
+import { Route as AuthenticatedTeamsTeamIdJobsImport } from './routes/_authenticated/teams_/$teamId/jobs'
+import { Route as AuthenticatedTeamsTeamIdJobCreateImport } from './routes/_authenticated/teams_/$teamId/job-create'
+import { Route as AuthenticatedTeamsTeamIdJobsJobIdRecordImport } from './routes/_authenticated/teams_/$teamId/jobs_/$jobId/record'
+import { Route as AuthenticatedTeamsTeamIdJobsJobIdJobUpdateImport } from './routes/_authenticated/teams_/$teamId/jobs_/$jobId/job-update'
 
 // Create/Update Routes
 
@@ -44,6 +48,34 @@ const AuthenticatedTeamsTeamIdIndexRoute =
     getParentRoute: () => AuthenticatedTeamsTeamIdRouteRoute,
   } as any)
 
+const AuthenticatedTeamsTeamIdJobsRoute =
+  AuthenticatedTeamsTeamIdJobsImport.update({
+    id: '/jobs',
+    path: '/jobs',
+    getParentRoute: () => AuthenticatedTeamsTeamIdRouteRoute,
+  } as any)
+
+const AuthenticatedTeamsTeamIdJobCreateRoute =
+  AuthenticatedTeamsTeamIdJobCreateImport.update({
+    id: '/job-create',
+    path: '/job-create',
+    getParentRoute: () => AuthenticatedTeamsTeamIdRouteRoute,
+  } as any)
+
+const AuthenticatedTeamsTeamIdJobsJobIdRecordRoute =
+  AuthenticatedTeamsTeamIdJobsJobIdRecordImport.update({
+    id: '/jobs_/$jobId/record',
+    path: '/jobs/$jobId/record',
+    getParentRoute: () => AuthenticatedTeamsTeamIdRouteRoute,
+  } as any)
+
+const AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute =
+  AuthenticatedTeamsTeamIdJobsJobIdJobUpdateImport.update({
+    id: '/jobs_/$jobId/job-update',
+    path: '/jobs/$jobId/job-update',
+    getParentRoute: () => AuthenticatedTeamsTeamIdRouteRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -69,11 +101,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTeamsTeamIdRouteImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/teams_/$teamId/job-create': {
+      id: '/_authenticated/teams_/$teamId/job-create'
+      path: '/job-create'
+      fullPath: '/teams/$teamId/job-create'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdJobCreateImport
+      parentRoute: typeof AuthenticatedTeamsTeamIdRouteImport
+    }
+    '/_authenticated/teams_/$teamId/jobs': {
+      id: '/_authenticated/teams_/$teamId/jobs'
+      path: '/jobs'
+      fullPath: '/teams/$teamId/jobs'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdJobsImport
+      parentRoute: typeof AuthenticatedTeamsTeamIdRouteImport
+    }
     '/_authenticated/teams_/$teamId/': {
       id: '/_authenticated/teams_/$teamId/'
       path: '/'
       fullPath: '/teams/$teamId/'
       preLoaderRoute: typeof AuthenticatedTeamsTeamIdIndexImport
+      parentRoute: typeof AuthenticatedTeamsTeamIdRouteImport
+    }
+    '/_authenticated/teams_/$teamId/jobs_/$jobId/job-update': {
+      id: '/_authenticated/teams_/$teamId/jobs_/$jobId/job-update'
+      path: '/jobs/$jobId/job-update'
+      fullPath: '/teams/$teamId/jobs/$jobId/job-update'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdJobsJobIdJobUpdateImport
+      parentRoute: typeof AuthenticatedTeamsTeamIdRouteImport
+    }
+    '/_authenticated/teams_/$teamId/jobs_/$jobId/record': {
+      id: '/_authenticated/teams_/$teamId/jobs_/$jobId/record'
+      path: '/jobs/$jobId/record'
+      fullPath: '/teams/$teamId/jobs/$jobId/record'
+      preLoaderRoute: typeof AuthenticatedTeamsTeamIdJobsJobIdRecordImport
       parentRoute: typeof AuthenticatedTeamsTeamIdRouteImport
     }
   }
@@ -82,12 +142,23 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedTeamsTeamIdRouteRouteChildren {
+  AuthenticatedTeamsTeamIdJobCreateRoute: typeof AuthenticatedTeamsTeamIdJobCreateRoute
+  AuthenticatedTeamsTeamIdJobsRoute: typeof AuthenticatedTeamsTeamIdJobsRoute
   AuthenticatedTeamsTeamIdIndexRoute: typeof AuthenticatedTeamsTeamIdIndexRoute
+  AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute: typeof AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute
+  AuthenticatedTeamsTeamIdJobsJobIdRecordRoute: typeof AuthenticatedTeamsTeamIdJobsJobIdRecordRoute
 }
 
 const AuthenticatedTeamsTeamIdRouteRouteChildren: AuthenticatedTeamsTeamIdRouteRouteChildren =
   {
+    AuthenticatedTeamsTeamIdJobCreateRoute:
+      AuthenticatedTeamsTeamIdJobCreateRoute,
+    AuthenticatedTeamsTeamIdJobsRoute: AuthenticatedTeamsTeamIdJobsRoute,
     AuthenticatedTeamsTeamIdIndexRoute: AuthenticatedTeamsTeamIdIndexRoute,
+    AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute:
+      AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute,
+    AuthenticatedTeamsTeamIdJobsJobIdRecordRoute:
+      AuthenticatedTeamsTeamIdJobsJobIdRecordRoute,
   }
 
 const AuthenticatedTeamsTeamIdRouteRouteWithChildren =
@@ -99,13 +170,21 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/teams': typeof AuthenticatedTeamsRoute
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdRouteRouteWithChildren
+  '/teams/$teamId/job-create': typeof AuthenticatedTeamsTeamIdJobCreateRoute
+  '/teams/$teamId/jobs': typeof AuthenticatedTeamsTeamIdJobsRoute
   '/teams/$teamId/': typeof AuthenticatedTeamsTeamIdIndexRoute
+  '/teams/$teamId/jobs/$jobId/job-update': typeof AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute
+  '/teams/$teamId/jobs/$jobId/record': typeof AuthenticatedTeamsTeamIdJobsJobIdRecordRoute
 }
 
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/teams': typeof AuthenticatedTeamsRoute
+  '/teams/$teamId/job-create': typeof AuthenticatedTeamsTeamIdJobCreateRoute
+  '/teams/$teamId/jobs': typeof AuthenticatedTeamsTeamIdJobsRoute
   '/teams/$teamId': typeof AuthenticatedTeamsTeamIdIndexRoute
+  '/teams/$teamId/jobs/$jobId/job-update': typeof AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute
+  '/teams/$teamId/jobs/$jobId/record': typeof AuthenticatedTeamsTeamIdJobsJobIdRecordRoute
 }
 
 export interface FileRoutesById {
@@ -113,20 +192,43 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_authenticated/teams': typeof AuthenticatedTeamsRoute
   '/_authenticated/teams_/$teamId': typeof AuthenticatedTeamsTeamIdRouteRouteWithChildren
+  '/_authenticated/teams_/$teamId/job-create': typeof AuthenticatedTeamsTeamIdJobCreateRoute
+  '/_authenticated/teams_/$teamId/jobs': typeof AuthenticatedTeamsTeamIdJobsRoute
   '/_authenticated/teams_/$teamId/': typeof AuthenticatedTeamsTeamIdIndexRoute
+  '/_authenticated/teams_/$teamId/jobs_/$jobId/job-update': typeof AuthenticatedTeamsTeamIdJobsJobIdJobUpdateRoute
+  '/_authenticated/teams_/$teamId/jobs_/$jobId/record': typeof AuthenticatedTeamsTeamIdJobsJobIdRecordRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/teams' | '/teams/$teamId' | '/teams/$teamId/'
+  fullPaths:
+    | '/login'
+    | '/teams'
+    | '/teams/$teamId'
+    | '/teams/$teamId/job-create'
+    | '/teams/$teamId/jobs'
+    | '/teams/$teamId/'
+    | '/teams/$teamId/jobs/$jobId/job-update'
+    | '/teams/$teamId/jobs/$jobId/record'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/teams' | '/teams/$teamId'
+  to:
+    | '/login'
+    | '/teams'
+    | '/teams/$teamId/job-create'
+    | '/teams/$teamId/jobs'
+    | '/teams/$teamId'
+    | '/teams/$teamId/jobs/$jobId/job-update'
+    | '/teams/$teamId/jobs/$jobId/record'
   id:
     | '__root__'
     | '/login'
     | '/_authenticated/teams'
     | '/_authenticated/teams_/$teamId'
+    | '/_authenticated/teams_/$teamId/job-create'
+    | '/_authenticated/teams_/$teamId/jobs'
     | '/_authenticated/teams_/$teamId/'
+    | '/_authenticated/teams_/$teamId/jobs_/$jobId/job-update'
+    | '/_authenticated/teams_/$teamId/jobs_/$jobId/record'
   fileRoutesById: FileRoutesById
 }
 
@@ -167,11 +269,31 @@ export const routeTree = rootRoute
     "/_authenticated/teams_/$teamId": {
       "filePath": "_authenticated/teams_/$teamId/route.tsx",
       "children": [
-        "/_authenticated/teams_/$teamId/"
+        "/_authenticated/teams_/$teamId/job-create",
+        "/_authenticated/teams_/$teamId/jobs",
+        "/_authenticated/teams_/$teamId/",
+        "/_authenticated/teams_/$teamId/jobs_/$jobId/job-update",
+        "/_authenticated/teams_/$teamId/jobs_/$jobId/record"
       ]
+    },
+    "/_authenticated/teams_/$teamId/job-create": {
+      "filePath": "_authenticated/teams_/$teamId/job-create.tsx",
+      "parent": "/_authenticated/teams_/$teamId"
+    },
+    "/_authenticated/teams_/$teamId/jobs": {
+      "filePath": "_authenticated/teams_/$teamId/jobs.tsx",
+      "parent": "/_authenticated/teams_/$teamId"
     },
     "/_authenticated/teams_/$teamId/": {
       "filePath": "_authenticated/teams_/$teamId/index.tsx",
+      "parent": "/_authenticated/teams_/$teamId"
+    },
+    "/_authenticated/teams_/$teamId/jobs_/$jobId/job-update": {
+      "filePath": "_authenticated/teams_/$teamId/jobs_/$jobId/job-update.tsx",
+      "parent": "/_authenticated/teams_/$teamId"
+    },
+    "/_authenticated/teams_/$teamId/jobs_/$jobId/record": {
+      "filePath": "_authenticated/teams_/$teamId/jobs_/$jobId/record.tsx",
       "parent": "/_authenticated/teams_/$teamId"
     }
   }

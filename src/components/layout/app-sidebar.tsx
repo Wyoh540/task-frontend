@@ -14,9 +14,11 @@ import { TeamSwitcher } from "./team-switcher"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { getTeamsOptions } from "@/client/@tanstack/react-query.gen"
 
+import { Command } from "lucide-react"
+
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     ...getTeamsOptions(),
     placeholderData: keepPreviousData,
   })
@@ -24,14 +26,13 @@ export function AppSidebar() {
   const teams = (data?.items ?? []).map((team) => ({
     name: team.name,
     // logo 字段需要后端或本地有对应资源，这里用占位符
-    logo: () => null,
+    logo: Command,
     plan: team.description,
   }))
-
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
-        <TeamSwitcher teams={sidebarData.teams} />
+        <TeamSwitcher teams={teams} loading={isLoading} />
 
         {/* Replace <TeamSwitch /> with the following <AppTitle />
          /* if you want to use the normal app title instead of TeamSwitch dropdown */}
