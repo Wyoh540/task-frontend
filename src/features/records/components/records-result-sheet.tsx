@@ -34,7 +34,7 @@ export function RecordResultSheet({ task_id }: Props) {
       <SheetTrigger>
         <Button variant="link">详情</Button>
       </SheetTrigger>
-      <SheetContent className="w-1/2 max-w-none" aria-describedby={undefined}>
+      <SheetContent className="w-1/2 sm:max-w-3xl" aria-describedby={undefined}>
         <SheetHeader>
           <SheetTitle>任务结果</SheetTitle>
         </SheetHeader>

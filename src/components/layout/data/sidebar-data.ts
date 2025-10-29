@@ -62,7 +62,11 @@ export const sidebarData: SidebarData = {
           url: '/teams/$teamId/jobs',
           icon: ListTodo,
         },
-        
+        {
+          title: '团队成员',
+          url: '/teams/$teamId/members',
+          icon: Users,
+        }
       ],
     },
 
